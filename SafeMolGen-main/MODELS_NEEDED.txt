@@ -1,0 +1,96 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   🚨 MODEL FILES MISSING/CORRUPTED 🚨                     ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+PROBLEM
+═══════════════════════════════════════════════════════════════════════════
+Your model files are incomplete:
+
+   ❌ checkpoints/generator/model.pt = 133 bytes (CORRUPTED)
+      Should be: ~100-200 MB (real model file)
+   
+   ✓ checkpoints/generator/tokenizer.json = 1.8 KB (OK)
+
+
+SOLUTION: GET FILES FROM YOUR FRIEND
+═══════════════════════════════════════════════════════════════════════════
+
+Your friend has working models on their laptop. You need:
+
+1. Ask your friend to give you:
+   - SafeMolGen-main/checkpoints/generator/model.pt (large file ~100MB+)
+   - SafeMolGen-main/checkpoints/oracle/ (entire directory)
+   - SafeMolGen-main/checkpoints/admet/ (entire directory)
+
+2. Copy these to your computer at:
+   C:\Users\Pavan Kumar\Downloads\SafeMolGen-main\SafeMolGen-main\checkpoints\
+
+3. After copying, run:
+   python run_demo.py
+   
+   It should now show:
+   ✅ Generator loaded successfully!
+   ✅ Generated molecules: [actual SMILES]
+   ✅ Demo completed!
+
+
+HOW TO TRANSFER FILES
+═══════════════════════════════════════════════════════════════════════════
+
+Option A: USB Drive (Fastest for large files)
+   - Friend copies checkpoints/ folder to USB
+   - You copy checkpoints/ from USB to your SafeMolGen-main/
+
+Option B: Cloud (Google Drive, OneDrive, Dropbox)
+   - Friend uploads checkpoints/ to cloud
+   - You download and extract to SafeMolGen-main/
+
+Option C: Remote Desktop / Screen Share
+   - Friend shares their checkpoints/ folder
+   - You copy over network
+
+
+FILE STRUCTURE (After copying)
+═══════════════════════════════════════════════════════════════════════════
+
+checkpoints/
+├── generator/
+│   ├── model.pt           ← MUST be ~100MB+ (currently only 133 bytes!)
+│   └── tokenizer.json     ← Already OK
+├── oracle/
+│   ├── model.pt
+│   ├── config.json
+│   └── ...
+└── admet/
+    ├── model.pt
+    └── ...
+
+
+VERIFICATION AFTER COPYING
+═══════════════════════════════════════════════════════════════════════════
+
+Run this to verify files are correct:
+
+   python -c "
+   import os
+   print('Generator model:', os.path.getsize('checkpoints/generator/model.pt'), 'bytes')
+   print('Should be > 100000000 bytes')
+   "
+
+Output should show a LARGE number (100+ million), not 133!
+
+
+THEN YOU CAN RUN
+═══════════════════════════════════════════════════════════════════════════
+
+Test Demo:
+   python run_demo.py
+
+Run API:
+   python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
+
+Web UI:
+   http://127.0.0.1:8000/docs
+
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,61 @@
+[project]
+name = "safemolgen"
+version = "0.1.0"
+description = "Closed-loop molecular design with ADMET-aware DrugOracle and RL-finetuned SafeMolGen generator"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "D. SreeVardhan" }
+]
+keywords = ["drug-discovery", "molecular-generation", "ADMET", "reinforcement-learning", "cheminformatics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["backend*", "models*", "utils*", "scripts*"]
+exclude = ["tests*", "frontend*", "docs*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+extend-exclude = [
+    ".venv",
+    "frontend",
+    "docs",
+    "checkpoints",
+    "data",
+    "canvas",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = [
+    "E501",
+    "B008",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B"]
+"scripts/**" = ["E402"]
+"backend/main.py" = ["E402"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "SafeMolGen: Closed-loop Molecular Design with ADMET-aware Oracle"
+message: "If you use this software, please cite as below."
+type: software
+authors:
+  - family-names: "D"
+    given-names: "SreeVardhan"
+    alias: "D-SreeVardhan"
+repository-code: "https://github.com/D-SreeVardhan/SafeMolGen"
+license: MIT
+version: "0.1.0"
+date-released: "2026-02-01"
+keywords:
+  - drug-discovery
+  - molecular-generation
+  - ADMET
+  - reinforcement-learning
+  - cheminformatics
+  - pytorch
+  - rdkit

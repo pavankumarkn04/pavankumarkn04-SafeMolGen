@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMET Pipeline Flowchart</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --panel: #141414;
+    --border: #2a2a2a;
+    --amber: #f0a500;
+    --amber-dim: #7a5200;
+    --green: #00c97a;
+    --green-dim: #004d2e;
+    --red: #e03c3c;
+    --red-dim: #5a1515;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --accent: #f0a500;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+  }
+  header {
+    width: 100%;
+    max-width: 780px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+  header .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .chart-wrap {
+    width: 100%;
+    max-width: 780px;
+    position: relative;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Node base styles via SVG classes */
+  .node-rect {
+    rx: 4;
+    ry: 4;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">Pipeline Architecture</div>
+  <h1>ADMET Oracle · Clinical Validity · Iteration Control</h1>
+</header>
+
+<div class="chart-wrap">
+<svg viewBox="0 0 700 920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#f0a500"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#00c97a"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e03c3c"/>
+    </marker>
+    <filter id="glow-amber">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-green">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ── START ── -->
+  <ellipse cx="350" cy="55" rx="70" ry="28"
+    fill="#1a1a1a" stroke="#f0a500" stroke-width="1.5"/>
+  <text x="350" y="51" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#f0a500" font-weight="600" letter-spacing="2">START</text>
+  <text x="350" y="65" text-anchor="middle" font-family="IBM Plex Sans" font-size="9" fill="#888">Molecule Input</text>
+
+  <!-- Arrow START → ADMET -->
+  <line x1="350" y1="83" x2="350" y2="133" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── ADMET ORACLE GENERATOR ── -->
+  <rect x="175" y="133" width="350" height="72"
+    fill="#1a1200" stroke="#f0a500" stroke-width="1.5" rx="4"/>
+  <text x="350" y="158" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#f0a500" letter-spacing="1.5" font-weight="600">ADMET ORACLE GENERATOR</text>
+  <text x="350" y="176" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Predicts Absorption · Distribution</text>
+  <text x="350" y="191" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Metabolism · Excretion · Toxicity</text>
+
+  <!-- Arrow ADMET → VALIDITY -->
+  <line x1="350" y1="205" x2="350" y2="255" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── CLINICAL VALIDITY CHECK ── -->
+  <rect x="175" y="255" width="350" height="72"
+    fill="#0a1a12" stroke="#00c97a" stroke-width="1.5" rx="4"/>
+  <text x="350" y="280" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#00c97a" letter-spacing="1.5" font-weight="600">CLINICAL VALIDITY CHECK</text>
+  <text x="350" y="298" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Safety Thresholds · Pharmacokinetic</text>
+  <text x="350" y="313" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Profiles · Toxicity Flags · Bioavailability</text>
+
+  <!-- Arrow VALIDITY → DIAMOND VALID? -->
+  <line x1="350" y1="327" x2="350" y2="375" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ── DIAMOND: Passes Validity? ── -->
+  <!-- Diamond shape: center 350,410 half-w=90 half-h=38 -->
+  <polygon points="350,372 440,410 350,448 260,410"
+    fill="#1a1a1a" stroke="#e8e8e8" stroke-width="1.5"/>
+  <text x="350" y="406" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#e8e8e8" font-weight="600">PASSES</text>
+  <text x="350" y="420" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#e8e8e8" font-weight="600">VALIDITY?</text>
+
+  <!-- YES arrow → OUTPUT (right side) -->
+  <line x1="440" y1="410" x2="560" y2="410" stroke="#00c97a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="490" y="403" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#00c97a" font-weight="600">YES</text>
+
+  <!-- ── OUTPUT BOX ── -->
+  <rect x="560" y="382" width="120" height="56"
+    fill="#0a1a12" stroke="#00c97a" stroke-width="1.5" rx="4"/>
+  <text x="620" y="405" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c97a" font-weight="600">VALID</text>
+  <text x="620" y="419" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c97a" font-weight="600">CANDIDATE</text>
+  <text x="620" y="433" text-anchor="middle" font-family="IBM Plex Sans" font-size="8" fill="#555">Output</text>
+
+  <!-- NO arrow down from diamond -->
+  <line x1="350" y1="448" x2="350" y2="498" stroke="#e03c3c" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="362" y="478" text-anchor="start" font-family="IBM Plex Mono" font-size="10" fill="#e03c3c" font-weight="600">NO</text>
+
+  <!-- ── ITERATION LIMIT CHECK ── -->
+  <!-- Diamond: center 350,535 half-w=110 half-h=40 -->
+  <polygon points="350,495 460,535 350,575 240,535"
+    fill="#1a1a1a" stroke="#e8e8e8" stroke-width="1.5"/>
+  <text x="350" y="528" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#e8e8e8" font-weight="600">ITERATION</text>
+  <text x="350" y="542" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#e8e8e8" font-weight="600">LIMIT REACHED?</text>
+
+  <!-- YES → TERMINATE (right) -->
+  <line x1="460" y1="535" x2="560" y2="535" stroke="#e03c3c" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="504" y="528" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#e03c3c" font-weight="600">YES</text>
+
+  <!-- TERMINATE BOX -->
+  <rect x="560" y="507" width="120" height="56"
+    fill="#1a0a0a" stroke="#e03c3c" stroke-width="1.5" rx="4"/>
+  <text x="620" y="531" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#e03c3c" font-weight="600">TERMINATE</text>
+  <text x="620" y="545" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#e03c3c" font-weight="600">/ REJECT</text>
+  <text x="620" y="558" text-anchor="middle" font-family="IBM Plex Sans" font-size="8" fill="#555">Max iter exceeded</text>
+
+  <!-- NO arrow down from iteration diamond -->
+  <line x1="350" y1="575" x2="350" y2="625" stroke="#f0a500" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <text x="362" y="605" text-anchor="start" font-family="IBM Plex Mono" font-size="10" fill="#f0a500" font-weight="600">NO</text>
+
+  <!-- ── FEEDBACK MODULE ── -->
+  <rect x="175" y="625" width="350" height="72"
+    fill="#1a1400" stroke="#f0a500" stroke-width="1.5" rx="4" stroke-dasharray="6,3"/>
+  <text x="350" y="650" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#f0a500" letter-spacing="1.5" font-weight="600">FEEDBACK MODULE</text>
+  <text x="350" y="668" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Adjusts constraints · Mutates parameters</text>
+  <text x="350" y="683" text-anchor="middle" font-family="IBM Plex Sans" font-size="10" fill="#aaa">Reformulates prompt · Increments counter</text>
+
+  <!-- Feedback arrow back to ADMET (left side loop) -->
+  <!-- Down from feedback box -->
+  <line x1="175" y1="661" x2="100" y2="661" stroke="#f0a500" stroke-width="1.5"/>
+  <!-- Up the left side -->
+  <line x1="100" y1="661" x2="100" y2="169" stroke="#f0a500" stroke-width="1.5"/>
+  <!-- Right back into ADMET -->
+  <line x1="100" y1="169" x2="175" y2="169" stroke="#f0a500" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- Feedback loop label -->
+  <rect x="20" y="390" width="68" height="40" fill="#1a1200" stroke="#f0a500" stroke-width="1" rx="3"/>
+  <text x="54" y="407" text-anchor="middle" font-family="IBM Plex Mono" font-size="8.5" fill="#f0a500" font-weight="600">FEEDBACK</text>
+  <text x="54" y="421" text-anchor="middle" font-family="IBM Plex Mono" font-size="8.5" fill="#f0a500" font-weight="600">LOOP</text>
+
+  <!-- Iteration counter badge (left of diamond) -->
+  <text x="238" y="529" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#888">iter_n &lt; max</text>
+  <text x="238" y="541" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#888">↓ continue</text>
+
+  <!-- END marker -->
+  <ellipse cx="620" cy="700" rx="55" ry="24" fill="#1a1a1a" stroke="#555" stroke-width="1.2"/>
+  <text x="620" y="705" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#555" font-weight="600" letter-spacing="2">END</text>
+
+  <!-- Arrow TERMINATE → END -->
+  <line x1="620" y1="563" x2="620" y2="676" stroke="#555" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- Arrow VALID → END -->
+  <line x1="620" y1="438" x2="620" y2="476" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="620" y1="476" x2="680" y2="476" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="680" y1="476" x2="680" y2="700" stroke="#555" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="680" y1="700" x2="675" y2="700" stroke="#555" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- Step numbers / annotations -->
+  <text x="168" y="148" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#3a3a3a">01</text>
+  <text x="168" y="270" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#3a3a3a">02</text>
+  <text x="168" y="420" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#3a3a3a">03</text>
+  <text x="168" y="545" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#3a3a3a">04</text>
+  <text x="168" y="640" text-anchor="end" font-family="IBM Plex Mono" font-size="8" fill="#3a3a3a">05</text>
+
+  <!-- Legend -->
+  <rect x="0" y="750" width="700" height="1" fill="#2a2a2a"/>
+  <text x="350" y="775" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#444" letter-spacing="2">LEGEND</text>
+  <!-- solid border = process -->
+  <rect x="50" y="790" width="40" height="20" fill="#1a1a1a" stroke="#888" stroke-width="1.2" rx="2"/>
+  <text x="100" y="803" font-family="IBM Plex Sans" font-size="9" fill="#888">Process Node</text>
+  <!-- diamond = decision -->
+  <polygon points="175,800 195,810 175,820 155,810" fill="#1a1a1a" stroke="#888" stroke-width="1.2"/>
+  <text x="205" y="813" font-family="IBM Plex Sans" font-size="9" fill="#888">Decision</text>
+  <!-- dashed = feedback -->
+  <rect x="310" y="790" width="40" height="20" fill="#1a1a1a" stroke="#f0a500" stroke-width="1.2" rx="2" stroke-dasharray="4,2"/>
+  <text x="360" y="803" font-family="IBM Plex Sans" font-size="9" fill="#888">Feedback / Loop</text>
+  <!-- amber line -->
+  <line x1="490" y1="800" x2="520" y2="800" stroke="#f0a500" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <text x="530" y="803" font-family="IBM Plex Sans" font-size="9" fill="#888">Retry path</text>
+  <!-- green -->
+  <line x1="490" y1="815" x2="520" y2="815" stroke="#00c97a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="530" y="818" font-family="IBM Plex Sans" font-size="9" fill="#888">Valid path</text>
+  <!-- red -->
+  <line x1="600" y1="800" x2="630" y2="800" stroke="#e03c3c" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <text x="640" y="803" font-family="IBM Plex Sans" font-size="9" fill="#888">Fail path</text>
+</svg>
+</div>
+
+</body>
+</html>

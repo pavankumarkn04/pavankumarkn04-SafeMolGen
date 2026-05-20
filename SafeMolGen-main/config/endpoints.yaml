@@ -1,0 +1,133 @@
+endpoints:
+  - name: caco2_wang
+    category: absorption
+    tdc_name: Caco2_Wang
+    task_type: regression
+    metric: mae
+    enabled: true
+  - name: hia_hou
+    category: absorption
+    tdc_name: HIA_Hou
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: pgp_broccatelli
+    category: absorption
+    tdc_name: Pgp_Broccatelli
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: bioavailability_ma
+    category: absorption
+    tdc_name: Bioavailability_Ma
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: lipophilicity_astrazeneca
+    category: absorption
+    tdc_name: Lipophilicity_AstraZeneca
+    task_type: regression
+    metric: mae
+    enabled: true
+  - name: solubility_aqsoldb
+    category: absorption
+    tdc_name: Solubility_AqSolDB
+    task_type: regression
+    metric: mae
+    enabled: true
+  - name: bbb_martins
+    category: distribution
+    tdc_name: BBB_Martins
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: ppbr_az
+    category: distribution
+    tdc_name: PPBR_AZ
+    task_type: regression
+    metric: mae
+    enabled: true
+  - name: vdss_lombardo
+    category: distribution
+    tdc_name: VDss_Lombardo
+    task_type: regression
+    metric: spearman
+    enabled: true
+  - name: cyp2c9_veith
+    category: metabolism
+    tdc_name: CYP2C9_Veith
+    task_type: classification
+    metric: auprc
+    enabled: true
+  - name: cyp2d6_veith
+    category: metabolism
+    tdc_name: CYP2D6_Veith
+    task_type: classification
+    metric: auprc
+    enabled: true
+  - name: cyp3a4_veith
+    category: metabolism
+    tdc_name: CYP3A4_Veith
+    task_type: classification
+    metric: auprc
+    enabled: true
+  - name: cyp2c9_substrate
+    category: metabolism
+    tdc_name: CYP2C9_Substrate_CarbonMangels
+    task_type: classification
+    metric: auprc
+    enabled: true
+  - name: cyp2d6_substrate
+    category: metabolism
+    tdc_name: CYP2D6_Substrate_CarbonMangels
+    task_type: classification
+    metric: auprc
+    enabled: true
+  - name: cyp3a4_substrate
+    category: metabolism
+    tdc_name: CYP3A4_Substrate_CarbonMangels
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: half_life_obach
+    category: excretion
+    tdc_name: Half_Life_Obach
+    task_type: regression
+    metric: spearman
+    enabled: true
+  - name: clearance_hepatocyte_az
+    category: excretion
+    tdc_name: Clearance_Hepatocyte_AZ
+    task_type: regression
+    metric: spearman
+    enabled: true
+  - name: clearance_microsome_az
+    category: excretion
+    tdc_name: Clearance_Microsome_AZ
+    task_type: regression
+    metric: spearman
+    enabled: true
+  - name: ld50_zhu
+    category: toxicity
+    tdc_name: LD50_Zhu
+    task_type: regression
+    metric: mae
+    enabled: true
+  - name: herg
+    category: toxicity
+    tdc_name: hERG
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: ames
+    category: toxicity
+    tdc_name: AMES
+    task_type: classification
+    metric: roc_auc
+    enabled: true
+  - name: dili
+    category: toxicity
+    tdc_name: DILI
+    task_type: classification
+    metric: roc_auc
+    enabled: true

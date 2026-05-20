@@ -1,0 +1,2 @@
+"""Integrated generator + oracle pipeline."""
+

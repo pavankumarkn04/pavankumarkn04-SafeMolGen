@@ -1,0 +1,6 @@
+id,name,smarts,category,severity,recommendation
+nitro_aromatic,Aromatic Nitro,"[$(c1ccccc1[N+](=O)[O-]),$(c1ccncc1[N+](=O)[O-]),$(c1cnccc1[N+](=O)[O-])]",mutagenicity,high,Replace -NO2 with -CN or -CF3
+aromatic_amine,Aromatic Amine (Aniline),"[NH2,NH1,NH0;!$(N-C=O)]c1ccccc1",mutagenicity,high,Convert to amide or replace with -OH/-OCH3
+nitroso,Nitroso Group,[#6]N=O,mutagenicity,critical,Remove nitroso group
+azo,Azo Compound,[#6]N=N[#6],mutagenicity,medium,Replace azo linkage with amide/ether
+epoxide,Epoxide,C1OC1,reactivity,medium,Avoid epoxide ring

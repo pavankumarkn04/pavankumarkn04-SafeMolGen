@@ -1,0 +1,12 @@
+# Production training for SafeMolGen.
+# Use: python scripts/train_generator.py --production
+
+pretrain:
+  epochs: 30
+  limit: 200000
+  batch_size: 128
+  checkpoint_every: 5
+
+rl:
+  epochs: 15
+  batch_size: 16

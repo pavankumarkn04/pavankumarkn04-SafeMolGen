@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Single entry point: ./run starts backend + frontend.
+# Terminal-only: ./run --cli [args]
+
+set -euo pipefail
+cd "$(dirname "$0")"
+
+DEFAULT_MODEL="$(pwd)/checkpoints/generator"
+export GENERATOR_CHECKPOINT="${GENERATOR_CHECKPOINT:-$DEFAULT_MODEL}"
+
+# First-run bootstrap: create venv if missing.
+if [[ ! -d .venv ]]; then
+  python3 -m venv .venv
+fi
+source .venv/bin/activate
+export PYTHONPATH=.
+
+# Install backend deps when venv is new or requirements changed.
+REQ_HASH_FILE=".venv/.requirements.sha1"
+CURRENT_REQ_HASH="$(shasum requirements.txt | awk '{print $1}')"
+PREV_REQ_HASH="$(cat "$REQ_HASH_FILE" 2>/dev/null || true)"
+if [[ "$CURRENT_REQ_HASH" != "$PREV_REQ_HASH" ]]; then
+  pip install -r requirements.txt
+  printf "%s" "$CURRENT_REQ_HASH" > "$REQ_HASH_FILE"
+fi
+
+# Install frontend deps once (or when removed).
+if [[ ! -d frontend/node_modules ]]; then
+  (cd frontend && npm install)
+fi
+
+if [[ ! -f "$GENERATOR_CHECKPOINT/model.pt" || ! -f "$GENERATOR_CHECKPOINT/tokenizer.json" ]]; then
+  echo "Missing generator checkpoint at: $GENERATOR_CHECKPOINT"
+  echo "Expected files: model.pt and tokenizer.json"
+  exit 1
+fi
+
+if [[ "${1:-}" == "--cli" ]]; then
+  exec python scripts/run_demo.py --model "$GENERATOR_CHECKPOINT" "${@:2}"
+fi
+
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 &
+UVICORN_PID=$!
+cleanup() {
+  kill "$UVICORN_PID" 2>/dev/null || true
+}
+trap cleanup EXIT
+
+for _ in {1..30}; do
+  curl -s -o /dev/null http://127.0.0.1:8000/api/v1/health && break
+  sleep 0.5
+done
+
+echo "Backend: http://127.0.0.1:8000"
+echo "Frontend: http://localhost:5173"
+(cd frontend && npm run dev)

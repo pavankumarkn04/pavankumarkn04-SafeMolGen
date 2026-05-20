@@ -1,0 +1,12 @@
+flowchart TB
+    Start([Start]) --> Phase1[Phase 1: Train ADMET GNN on TDC data]
+    Phase1 --> Phase2[Phase 2: Train Oracle on clinical data using ADMET]
+    Phase2 --> Phase3[Phase 3: Pretrain Generator on SMILES; optional RL]
+    Phase3 --> Load[Load Generator + Oracle + ADMET]
+    Load --> Gen[Generate N candidate SMILES]
+    Gen --> Score[Score each with Oracle]
+    Score --> Best[Pick best by overall probability]
+    Best --> Check{Target reached or max iterations?}
+    Check -->|No| Feedback[Optionally use Oracle feedback next iteration]
+    Feedback --> Gen
+    Check -->|Yes| End([Return best molecule])

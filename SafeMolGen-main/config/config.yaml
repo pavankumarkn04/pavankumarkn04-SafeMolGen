@@ -1,0 +1,33 @@
+# Main configuration
+project:
+  name: SafeMolGen-DrugOracle
+  seed: 42
+
+paths:
+  data_dir: data
+  checkpoints_dir: checkpoints
+  outputs_dir: outputs
+
+training:
+  device: cpu
+  batch_size: 64
+  num_workers: 0
+  epochs: 80
+  lr: 0.0005
+  weight_decay: 0.0001
+  log_every: 50
+
+admet_endpoint_weights:
+  bioavailability_ma: 1.8
+  bbb_martins: 1.5
+  cyp2c9_veith: 1.5
+  cyp2c9_substrate: 1.5
+  cyp3a4_substrate: 1.5
+  dili: 1.5
+
+model:
+  node_embed_dim: 128
+  gnn_hidden_dim: 128
+  gnn_layers: 3
+  dropout: 0.1
+  pooling: attention
