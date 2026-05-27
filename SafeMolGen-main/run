@@ -12,12 +12,23 @@ export GENERATOR_CHECKPOINT="${GENERATOR_CHECKPOINT:-$DEFAULT_MODEL}"
 if [[ ! -d .venv ]]; then
   python3 -m venv .venv
 fi
-source .venv/bin/activate
+if [[ -f .venv/bin/activate ]]; then
+  source .venv/bin/activate
+elif [[ -f .venv/Scripts/activate ]]; then
+  source .venv/Scripts/activate
+else
+  echo "Could not find a virtual environment activation script in .venv"
+  exit 1
+fi
 export PYTHONPATH=.
 
 # Install backend deps when venv is new or requirements changed.
 REQ_HASH_FILE=".venv/.requirements.sha1"
-CURRENT_REQ_HASH="$(shasum requirements.txt | awk '{print $1}')"
+if command -v shasum >/dev/null 2>&1; then
+  CURRENT_REQ_HASH="$(shasum requirements.txt | awk '{print $1}')"
+else
+  CURRENT_REQ_HASH="$(sha1sum requirements.txt | awk '{print $1}')"
+fi
 PREV_REQ_HASH="$(cat "$REQ_HASH_FILE" 2>/dev/null || true)"
 if [[ "$CURRENT_REQ_HASH" != "$PREV_REQ_HASH" ]]; then
   pip install -r requirements.txt
