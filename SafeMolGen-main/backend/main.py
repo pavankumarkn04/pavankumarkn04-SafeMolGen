@@ -134,13 +134,8 @@ def _get_pipeline(use_rl_model: bool = False):
     key = "pipeline_rl" if use_rl_model else "pipeline"
     p = getattr(app.state, key, None)
     if p is None:
-        try:
-            p = load_pipeline(use_rl_model=use_rl_model)
-            setattr(app.state, key, p)
-        except Exception as e:
-            import logging
-            logging.warning(f"Failed to load pipeline: {e}")
-            p = None
+        p = load_pipeline(use_rl_model=use_rl_model)
+        setattr(app.state, key, p)
     return p
 
 
@@ -148,35 +143,19 @@ def _get_pipeline(use_rl_model: bool = False):
 
 @app.get("/api/v1/health")
 def health():
-    try:
-        cond_dim = getattr(_generator.model, "cond_dim", 0) if _generator else 0
-        pipeline = _get_pipeline(use_rl_model=False)
-        return {
-            "status": "ok",
-            "generator_loaded": _generator is not None,
-            "conditioning_available": cond_dim > 0,
-            "models_loaded": pipeline is not None,
-        }
-    except Exception as e:
-        return {
-            "status": "ok",
-            "generator_loaded": _generator is not None,
-            "conditioning_available": False,
-            "models_loaded": False,
-            "warning": "Models not available"
-        }
+    cond_dim = getattr(_generator.model, "cond_dim", 0) if _generator else 0
+    pipeline = _get_pipeline(use_rl_model=False)
+    return {
+        "status": "ok",
+        "generator_loaded": _generator is not None,
+        "conditioning_available": cond_dim > 0,
+        "models_loaded": pipeline is not None,
+    }
 
 
 @app.get("/api/v1/config")
 def config():
-    try:
-        pipeline = _get_pipeline(use_rl_model=False)
-        has_reranker = pipeline is not None and getattr(pipeline, "reranker", None) is not None
-        gen_early_available = pipeline is not None and getattr(pipeline, "generator_early", None) is not None
-    except Exception:
-        pipeline = None
-        has_reranker = False
-        gen_early_available = False
+    pipeline = _get_pipeline(use_rl_model=False)
     return {
         "max_iterations_min": 1,
         "max_iterations_max": 50,
@@ -186,11 +165,11 @@ def config():
         "top_k_max": 80,
         "selection_modes": ["overall", "pareto", "diversity", "phase_weighted", "bottleneck"],
         "design_modes": ["single", "restarts", "evolutionary"],
-        "has_reranker": has_reranker,
+        "has_reranker": pipeline is not None and getattr(pipeline, "reranker", None) is not None,
         "diversity_tanimoto_max_default": 0.7,
         "exploration_fraction_default": 0.25,
         "first_iteration_temperature_default": 1.4,
-        "generator_early_available": gen_early_available,
+        "generator_early_available": pipeline is not None and getattr(pipeline, "generator_early", None) is not None,
         "default_property_targets": {
             "logp": [2.0, 5.0],
             "mw_min": 150,
